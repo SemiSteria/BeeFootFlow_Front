@@ -45,9 +45,9 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// L'objet user sera alimenté directement depuis la BDD (Prisma)
+// User object will be populated directly from the DB (Prisma)
 const user = ref({
-  userName: 'invité',
+  userName: 'guest',
   totalMatchs: 0,
   totalWins: 0,
   actElo: 0

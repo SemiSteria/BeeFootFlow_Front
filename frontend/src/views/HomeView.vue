@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 
-// L'objet user sera alimenté directement depuis la BDD (via une API future)
-// On utilise les noms exacts du modèle Prisma 'users'
+// User object will be populated directly from the DB (via a future API)
+// Using exact field names from the Prisma 'users' model
 const user = ref({
   userName: 'Felix',
   totalMatchs: 12,
@@ -28,16 +28,16 @@ const user = ref({
     <div class="stats-container">
       <div class="stat-card">
         <div class="stat-info">
-          <!-- Mapping avec le champ Prisma 'totalMatchs' -->
+          <!-- Mapping with Prisma 'totalMatchs' field -->
           <span class="stat-val">{{ user.totalMatchs }}</span>
-          <span class="stat-lab">MESSES</span>
+          <span class="stat-lab">MATCHS</span>
         </div>
         <div class="stat-icon pulse">⚽</div>
       </div>
       
       <div class="stat-card">
         <div class="stat-info">
-          <!-- Mapping avec le champ Prisma 'totalWins' -->
+          <!-- Mapping with Prisma 'totalWins' field -->
           <span class="stat-val">{{ user.totalWins.toString().padStart(2, '0') }}</span>
           <span class="stat-lab">WINS</span>
         </div>
@@ -46,7 +46,7 @@ const user = ref({
       
       <div class="stat-card">
         <div class="stat-info">
-          <!-- Calcul dynamique de l'accuracy sans stocker la variable -->
+          <!-- Dynamic accuracy calculation without storing the variable -->
           <span class="stat-val">
             {{ user.totalMatchs > 0 ? Math.round((user.totalWins / user.totalMatchs) * 100) : 0 }}%
           </span>
