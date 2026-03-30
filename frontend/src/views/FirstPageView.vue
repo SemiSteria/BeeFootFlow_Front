@@ -11,8 +11,8 @@ const errorMessage = ref('');
 const isSubmitting = ref(false);
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://48h.sayzx.fr:30090';
 const SOCIAL_AUTH_URLS = {
-  google: import.meta.env.VITE_GOOGLE_AUTH_URL as string | undefined,
-  discord: import.meta.env.VITE_DISCORD_AUTH_URL as string | undefined,
+  google: (import.meta.env.VITE_GOOGLE_AUTH_URL as string | undefined) ?? `${API_URL}/auth/google`,
+  discord: (import.meta.env.VITE_DISCORD_AUTH_URL as string | undefined) ?? `${API_URL}/auth/discord`,
 };
 
 type UserData = {
