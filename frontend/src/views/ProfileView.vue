@@ -26,6 +26,12 @@
     </div>
 
     <div class="menu-list">
+      <div class="menu-item" @click="router.push('/teams/create')">
+        <span class="menu-label">Créer une équipe</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </div>
       <div class="menu-item" v-for="item in menuItems" :key="item.label">
         <span class="menu-label">{{ item.label }}</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -36,11 +42,22 @@
         <span class="menu-label">Déconnexion</span>
       </div>
     </div>
+
+    <section class="teams-card" v-if="teams.length > 0">
+      <h2>Mes équipes</h2>
+      <div class="team-row" v-for="team in teams" :key="team.id">
+        <div>
+          <strong>{{ team.name }}</strong>
+          <span v-if="team.tag" class="tag">{{ team.tag }}</span>
+        </div>
+        <small>{{ team.members.length }} membre(s)</small>
+      </div>
+    </section>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -58,6 +75,13 @@ type StoredUser = {
   created_at: string
 }
 
+type TeamData = {
+  id: string
+  name: string
+  tag: string | null
+  members: Array<{ id: string }>
+}
+
 const getStoredUser = (): StoredUser | null => {
   const raw = localStorage.getItem('user_data')
   if (!raw) return null
@@ -70,6 +94,8 @@ const getStoredUser = (): StoredUser | null => {
 }
 
 const storedUser = getStoredUser()
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://48h.sayzx.fr:30090'
+const teams = ref<TeamData[]>([])
 
 const user = ref({
   userName: storedUser?.pseudo ?? 'guest',
@@ -82,6 +108,24 @@ const user = ref({
 if (!storedUser) {
   router.replace('/')
 }
+
+const loadTeams = async () => {
+  if (!storedUser?.id) return
+
+  try {
+    const response = await fetch(`${API_URL}/teams/user/${storedUser.id}`)
+    const data = await response.json().catch(() => ({}))
+
+    if (!response.ok) return
+    teams.value = (data.teams as TeamData[] | undefined) ?? []
+  } catch {
+    teams.value = []
+  }
+}
+
+onMounted(() => {
+  loadTeams()
+})
 
 const menuItems = [
   { label: "Historique des matchs" },
@@ -212,6 +256,40 @@ p {
 
 .logout .menu-label {
   color: #e74c3c;
+}
+
+.teams-card {
+  margin-top: 1.4rem;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 1.2rem;
+  padding: 1rem 1.2rem;
+}
+
+.teams-card h2 {
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+}
+
+.team-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.team-row:last-child {
+  border-bottom: none;
+}
+
+.tag {
+  margin-left: 0.5rem;
+  background: #111;
+  color: #fff;
+  border-radius: 99px;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.7rem;
 }
 @media (max-width: 480px) {
   .profile-view {

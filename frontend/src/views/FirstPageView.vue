@@ -10,6 +10,10 @@ const password = ref('');
 const errorMessage = ref('');
 const isSubmitting = ref(false);
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://48h.sayzx.fr:30090';
+const SOCIAL_AUTH_URLS = {
+  google: import.meta.env.VITE_GOOGLE_AUTH_URL as string | undefined,
+  discord: import.meta.env.VITE_DISCORD_AUTH_URL as string | undefined,
+};
 
 type UserData = {
   id: string;
@@ -70,6 +74,20 @@ const handleAuth = async () => {
     isSubmitting.value = false;
   }
 };
+
+const handleSocialLogin = (provider: 'google' | 'discord') => {
+  errorMessage.value = '';
+
+  const providerLabel = provider === 'google' ? 'Google' : 'Discord';
+  const authUrl = SOCIAL_AUTH_URLS[provider];
+
+  if (!authUrl) {
+    errorMessage.value = `Connexion ${providerLabel} indisponible: configure ${provider === 'google' ? 'VITE_GOOGLE_AUTH_URL' : 'VITE_DISCORD_AUTH_URL'}.`;
+    return;
+  }
+
+  window.location.href = authUrl;
+};
 </script>
 
 <template>
@@ -114,6 +132,28 @@ const handleAuth = async () => {
           <button type="submit" class="auth-btn" :disabled="isSubmitting">
             {{ isSubmitting ? 'ENVOI...' : (isLogin ? 'SE CONNECTER' : 'REJOINDRE LE FLOW') }}
           </button>
+
+          <div class="social-auth" v-if="isLogin">
+            <div class="social-separator">
+              <span>ou continuer avec</span>
+            </div>
+            <div class="social-buttons">
+              <button
+                type="button"
+                class="social-btn google"
+                @click="handleSocialLogin('google')"
+              >
+                Google
+              </button>
+              <button
+                type="button"
+                class="social-btn discord"
+                @click="handleSocialLogin('discord')"
+              >
+                Discord
+              </button>
+            </div>
+          </div>
 
           <p v-if="errorMessage" class="auth-error">{{ errorMessage }}</p>
         </form>
@@ -281,6 +321,62 @@ const handleAuth = async () => {
 .auth-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(250, 193, 45, 0.3);
+}
+
+.social-auth {
+  margin-top: 0.25rem;
+}
+
+.social-separator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #94A3B8;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 800;
+}
+
+.social-separator::before,
+.social-separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #EDEDED;
+}
+
+.social-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin-top: 0.9rem;
+}
+
+.social-btn {
+  border: 1px solid #E5E7EB;
+  background: #FFFFFF;
+  color: #111827;
+  border-radius: 14px;
+  padding: 0.85rem 0.9rem;
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+  transform: translateY(-2px);
+}
+
+.social-btn.google:hover {
+  border-color: #DB4437;
+  color: #DB4437;
+}
+
+.social-btn.discord:hover {
+  border-color: #5865F2;
+  color: #5865F2;
 }
 
 .auth-footer {
