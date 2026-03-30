@@ -5,11 +5,70 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const isLogin = ref(true);
 const email = ref('');
+const username = ref('');
 const password = ref('');
+const errorMessage = ref('');
+const isSubmitting = ref(false);
+const API_URL = import.meta.env.VITE_API_URL ?? '/api';
 
-const handleAuth = () => {
-  // Simulate auth
-  router.push('/home');
+type UserData = {
+  id: string;
+  pseudo: string;
+  email: string;
+  elo: number;
+  elo_peak: number;
+  mmr: number;
+  total_matches: number;
+  total_wins: number;
+  total_goals: number;
+  created_at: string;
+};
+
+const persistUserSession = (user: UserData) => {
+  localStorage.setItem('user_data', JSON.stringify(user));
+  localStorage.setItem('auth_token', user.id);
+};
+
+const handleAuth = async () => {
+  errorMessage.value = '';
+
+  isSubmitting.value = true;
+
+  try {
+    const endpoint = isLogin.value ? '/auth/login' : '/auth/register';
+
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+      }),
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      errorMessage.value = data.message ?? 'Inscription impossible pour le moment.';
+      return;
+    }
+
+    if (!data.user) {
+      errorMessage.value = 'Réponse serveur invalide.';
+      return;
+    }
+
+    persistUserSession(data.user as UserData);
+
+    router.push('/home');
+  } catch (error) {
+    const details = error instanceof Error ? ` (${error.message})` : '';
+    errorMessage.value = `Impossible de contacter le serveur${details}.`;
+  } finally {
+    isSubmitting.value = false;
+  }
 };
 </script>
 
@@ -41,15 +100,22 @@ const handleAuth = () => {
             <label>ADRESSE EMAIL</label>
             <input type="email" v-model="email" placeholder="nom@exemple.com" required />
           </div>
-          
+
+          <div class="input-group" v-if="!isLogin">
+            <label>NOM D'UTILISATEUR</label>
+            <input type="text" v-model="username" placeholder="Votre nom d'utilisateur" />
+          </div>
+
           <div class="input-group">
             <label>MOT DE PASSE</label>
             <input type="password" v-model="password" placeholder="••••••••" required />
           </div>
 
-          <button type="submit" class="auth-btn">
-            {{ isLogin ? 'SE CONNECTER' : 'REJOINDRE LE FLOW' }}
+          <button type="submit" class="auth-btn" :disabled="isSubmitting">
+            {{ isSubmitting ? 'ENVOI...' : (isLogin ? 'SE CONNECTER' : 'REJOINDRE LE FLOW') }}
           </button>
+
+          <p v-if="errorMessage" class="auth-error">{{ errorMessage }}</p>
         </form>
 
         <p class="auth-footer" v-if="isLogin">
@@ -205,6 +271,13 @@ const handleAuth = () => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.auth-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: 0 8px 24px rgba(250, 193, 45, 0.2);
+}
+
 .auth-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(250, 193, 45, 0.3);
@@ -221,6 +294,13 @@ const handleAuth = () => {
 .auth-footer span {
   color: #FAC12D;
   cursor: pointer;
+}
+
+.auth-error {
+  color: #B42318;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: -0.4rem;
 }
 
 @keyframes fadeIn {

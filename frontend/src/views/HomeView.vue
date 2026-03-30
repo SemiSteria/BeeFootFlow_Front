@@ -1,12 +1,19 @@
 <script setup>
 import { ref } from 'vue'
 
-// User object will be populated directly from the DB (via a future API)
-// Using exact field names from the Prisma 'users' model
+const storedRaw = localStorage.getItem('user_data')
+let storedUser = null
+
+try {
+  storedUser = storedRaw ? JSON.parse(storedRaw) : null
+} catch {
+  storedUser = null
+}
+
 const user = ref({
-  userName: 'Felix',
-  totalMatchs: 12,
-  totalWins: 5
+  userName: storedUser?.pseudo ?? 'Guest',
+  totalMatchs: storedUser?.total_matches ?? 0,
+  totalWins: storedUser?.total_wins ?? 0
 })
 </script>
 

@@ -39,19 +39,49 @@
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// User object will be populated directly from the DB (Prisma)
+type StoredUser = {
+  id: string
+  pseudo: string
+  email: string
+  elo: number
+  elo_peak: number
+  mmr: number
+  total_matches: number
+  total_wins: number
+  total_goals: number
+  created_at: string
+}
+
+const getStoredUser = (): StoredUser | null => {
+  const raw = localStorage.getItem('user_data')
+  if (!raw) return null
+
+  try {
+    return JSON.parse(raw) as StoredUser
+  } catch {
+    return null
+  }
+}
+
+const storedUser = getStoredUser()
+
 const user = ref({
-  userName: 'guest',
-  totalMatchs: 0,
-  totalWins: 0,
-  actElo: 0
+  userName: storedUser?.pseudo ?? 'guest',
+  totalMatchs: storedUser?.total_matches ?? 0,
+  totalWins: storedUser?.total_wins ?? 0,
+  actElo: storedUser?.elo ?? 0,
+  email: storedUser?.email ?? ''
 })
+
+if (!storedUser) {
+  router.replace('/')
+}
 
 const menuItems = [
   { label: "Historique des matchs" },
