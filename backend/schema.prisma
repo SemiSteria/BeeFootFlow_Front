@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Users Data
+model users {
+  id          Int      @id @default(autoincrement())
+  userName    String?  @unique
+  email       String?  @unique
+  password    String
+  actElo      Int
+  mmr         Int
+  peakElo     Int
+  totalMatchs Int
+  totalWins   Int
+  createdAt   DateTime @default(now())
+
+  user matchPlayers[]
+}
+
+model matches {
+  id           Int      @id @default(autoincrement())
+  scoreTeamA   Int
+  scoreTeamB   Int
+  avgGoalSpeed Float
+  avgElo       Int
+  duration     Int // time in seconds
+  status       statusMatch
+  createAt     DateTime @default(now())
+
+  goals goals[]
+  players matchPlayers[]
+}
+
+model goals {
+  id                Int      @id @default(autoincrement())
+  matchId           Int 
+  team              teams  @unique
+  ballSpeed         Float
+  timeSinceLastGoal Int
+  scoredAt          DateTime @default(now())
+
+  match matches @relation(fields: [matchId], references: [id]) 
+}
+
+model matchPlayers {
+  id Int @id @default(autoincrement())
+  matchId Int
+  userId Int
+  team teams
+
+  match matches @relation(fields: [matchId], references: [id])
+  user users @relation(fields: [userId], references: [id])
+}
+
+enum statusMatch { 
+  Finished
+  Started
+}
+
+enum teams {
+  teamA
+  teamB
+}
