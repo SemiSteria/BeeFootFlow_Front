@@ -9,7 +9,7 @@ const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const isSubmitting = ref(false);
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://48h.sayzx.fr:30090';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://beefootflow-backend-svc:8080';
 
 type UserData = {
   id: string;
