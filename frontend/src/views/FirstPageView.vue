@@ -19,6 +19,7 @@ type UserData = {
   id: string;
   pseudo: string;
   email: string;
+  avatar_url?: string | null;
   elo: number;
   elo_peak: number;
   mmr: number;

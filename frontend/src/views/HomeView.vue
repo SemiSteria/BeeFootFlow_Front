@@ -12,6 +12,7 @@ try {
 
 const user = ref({
   userName: storedUser?.pseudo ?? 'Guest',
+  avatarUrl: storedUser?.avatar_url ?? null,
   totalMatchs: storedUser?.total_matches ?? 0,
   totalWins: storedUser?.total_wins ?? 0
 })
@@ -28,7 +29,7 @@ const user = ref({
         </div>
       </div>
       <div class="user-profile">
-        <img :src="`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.userName}`" alt="Profile" />
+        <img :src="user.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.userName}`" alt="Profile" />
       </div>
     </header>
 

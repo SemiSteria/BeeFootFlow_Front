@@ -2,7 +2,7 @@
   <main class="profile-view">
     <div class="profile-header">
       <div class="avatar-container">
-        <img :src="`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.userName}`" :alt="user.userName" class="profile-avatar" />
+        <img :src="user.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.userName}`" :alt="user.userName" class="profile-avatar" />
       </div>
       <div class="user-info">
         <h1>{{ user.userName }}</h1>
@@ -66,6 +66,7 @@ type StoredUser = {
   id: string
   pseudo: string
   email: string
+  avatar_url?: string | null
   elo: number
   elo_peak: number
   mmr: number
@@ -99,6 +100,7 @@ const teams = ref<TeamData[]>([])
 
 const user = ref({
   userName: storedUser?.pseudo ?? 'guest',
+  avatarUrl: storedUser?.avatar_url ?? null,
   totalMatchs: storedUser?.total_matches ?? 0,
   totalWins: storedUser?.total_wins ?? 0,
   actElo: storedUser?.elo ?? 0,

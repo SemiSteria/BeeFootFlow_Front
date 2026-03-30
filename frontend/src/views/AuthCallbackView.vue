@@ -6,6 +6,7 @@ type TokenPayload = {
   id: string
   email: string
   pseudo: string
+  avatar_url?: string | null
   iat?: number
   exp?: number
 }
@@ -53,6 +54,7 @@ onMounted(() => {
     id: payload.id,
     pseudo: payload.pseudo,
     email: payload.email,
+    avatar_url: payload.avatar_url ?? null,
     elo: 1000,
     elo_peak: 1000,
     mmr: 1000,
