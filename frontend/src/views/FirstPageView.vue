@@ -78,13 +78,7 @@ const handleAuth = async () => {
 const handleSocialLogin = (provider: 'google' | 'discord') => {
   errorMessage.value = '';
 
-  const providerLabel = provider === 'google' ? 'Google' : 'Discord';
-  const authUrl = SOCIAL_AUTH_URLS[provider];
-
-  if (!authUrl) {
-    errorMessage.value = `Connexion ${providerLabel} indisponible: configure ${provider === 'google' ? 'VITE_GOOGLE_AUTH_URL' : 'VITE_DISCORD_AUTH_URL'}.`;
-    return;
-  }
+  const authUrl = SOCIAL_AUTH_URLS[provider] ?? `${API_URL}/auth/${provider}`;
 
   window.location.href = authUrl;
 };
