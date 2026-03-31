@@ -94,7 +94,7 @@ const formatTime = (seconds: number) => {
     <section class="split-view">
       
       <!-- BLUE SIDE -->
-      <div class="team-panel blue-panel">
+      <div class="team-panel blue-panel" :class="{ 'is-leading': isLeading === 'blue' }">
         <div class="panel-content">
           <h2 class="team-name">ÉQUIPE BLEUE</h2>
           <div class="big-score">{{ blueTeam.score }}</div>
@@ -113,7 +113,7 @@ const formatTime = (seconds: number) => {
       </div>
 
       <!-- RED SIDE -->
-      <div class="team-panel red-panel">
+      <div class="team-panel red-panel" :class="{ 'is-leading': isLeading === 'red' }">
         <div class="panel-content">
           <h2 class="team-name">ÉQUIPE ROUGE</h2>
           <div class="big-score">{{ redTeam.score }}</div>
@@ -303,6 +303,28 @@ const formatTime = (seconds: number) => {
   text-align: center;
   gap: 1.5rem;
   z-index: 2;
+}
+
+.is-leading .team-name::after {
+  content: 'EN TÊTE';
+  display: block;
+  font-size: 0.8rem;
+  background: var(--yellow-vivid);
+  color: #000;
+  width: fit-content;
+  margin: 0.5rem auto 0;
+  padding: 0.1rem 0.6rem;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  letter-spacing: 1px;
+  box-shadow: 0 0 15px var(--yellow-glow);
+  animation: leaderPulse 1.5s infinite alternate;
+}
+
+@keyframes leaderPulse {
+  from { opacity: 0.8; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1.05); }
 }
 
 .team-name {
