@@ -9,15 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "qrcode-reader-vue3": "^4.1.0",
     "vue": "^3.5.30",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@types/node": "^24.12.0",
-    "@vitejs/plugin-vue": "^6.0.5",
+    "@vitejs/plugin-vue": "^5.2.4",
     "@vue/tsconfig": "^0.9.0",
     "typescript": "~5.9.3",
-    "vite": "^8.0.1",
+    "vite": "^6.4.1",
     "vite-plugin-pwa": "^1.2.0",
     "vue-tsc": "^3.2.5"
   }
