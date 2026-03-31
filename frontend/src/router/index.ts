@@ -23,7 +23,6 @@ const router = createRouter({
       path: '/matchmaking',
       name: 'matchmaking',
       component: () => import('../views/MatchmakingView.vue'),
-      redirect: '/matchmaking/find',
       children: [
         {
           path: 'find',
@@ -58,6 +57,24 @@ const router = createRouter({
       component: () => import('../views/ScorePageView.vue')
     }
   ]
+})
+
+// Authentication Guard
+router.beforeEach((to, _from, next) => {
+  const publicPages = ['/', '/auth/callback'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user_data');
+
+  // Skip redirect loop
+  if (to.path === '/' && loggedIn) {
+    return next('/home');
+  }
+
+  if (authRequired && !loggedIn) {
+    return next('/');
+  }
+
+  next();
 })
 
 export default router

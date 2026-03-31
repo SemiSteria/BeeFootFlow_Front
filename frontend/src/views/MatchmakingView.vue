@@ -42,7 +42,10 @@ const goBack = () => {
   <main class="matchmaking-page">
     <header class="page-header">
       <button @click="goBack" class="back-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
       </button>
       <div class="header-text">
         <h1>Le Flow</h1>
@@ -64,6 +67,7 @@ const goBack = () => {
 
 <style scoped>
 .matchmaking-page {
+  margin-top: 2rem;
   min-height: 100vh;
   background-color: #FFFFFF;
   padding: 1.5rem;
@@ -139,7 +143,21 @@ const goBack = () => {
 
 @media (max-width: 480px) {
   .matchmaking-page {
-    padding: 1.25rem;
+    padding: var(--section-padding);
+  }
+
+  .page-header {
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .header-text h1 {
+    font-size: 1.4rem;
+  }
+
+  .back-btn {
+    width: 40px;
+    height: 40px;
   }
 }
 </style>

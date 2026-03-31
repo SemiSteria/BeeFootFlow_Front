@@ -29,22 +29,12 @@ const joinQuickGame = (id: string) => {
     <section class="code-section">
       <div class="section-badge">CODE DE LA PARTIE</div>
       <p class="section-desc">Saisissez le code à 6 chiffres pour rejoindre vos amis.</p>
-      
+
       <div class="code-input-wrapper">
-        <input 
-          v-model="gameCode" 
-          type="text" 
-          placeholder="Ex: 849 201" 
-          maxlength="7"
-          class="game-code-input"
-        />
+        <input v-model="gameCode" type="text" placeholder="Ex: 849 201" maxlength="7" class="game-code-input" />
       </div>
 
-      <button 
-        @click="handleJoin" 
-        class="join-btn" 
-        :disabled="gameCode.length < 4 || isJoining"
-      >
+      <button @click="handleJoin" class="join-btn" :disabled="gameCode.length < 4 || isJoining">
         {{ isJoining ? 'CONNEXION...' : 'REJOINDRE LE MATCH' }}
       </button>
     </section>
@@ -149,7 +139,7 @@ const joinQuickGame = (id: string) => {
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .join-btn:disabled {
@@ -187,7 +177,7 @@ const joinQuickGame = (id: string) => {
 .game-card:hover {
   border-color: #FAC12D;
   transform: scale(1.01);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.03);
 }
 
 .game-info h3 {
@@ -197,7 +187,7 @@ const joinQuickGame = (id: string) => {
 }
 
 .game-info p {
-  margin: 0.2rem 0 0 0 ;
+  margin: 0.2rem 0 0 0;
   font-size: 0.8rem;
   color: #666;
   font-weight: 600;
@@ -228,14 +218,32 @@ const joinQuickGame = (id: string) => {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0.5; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @media (max-width: 480px) {

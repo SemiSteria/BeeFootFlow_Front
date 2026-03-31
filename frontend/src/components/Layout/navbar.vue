@@ -2,24 +2,29 @@
   <nav class="bottom-nav" :style="{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }">
     <button class="nav-item" :class="{ active: $route.path === '/home' }" @click="$router.push('/home')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 9.5L12 3L21 9.5V20C21 20.5523 20.5523 21 20 21H15V15H9V21H4C3.44772 21 3 20.5523 3 20V9.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M3 9.5L12 3L21 9.5V20C21 20.5523 20.5523 21 20 21H15V15H9V21H4C3.44772 21 3 20.5523 3 20V9.5Z"
+          stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
       </svg>
       <span class="nav-label">ACCUEIL</span>
     </button>
 
     <button class="nav-item" :class="{ active: $route.path === '/matchmaking' }" @click="$router.push('/matchmaking')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 3L3 6V21L9 18L15 21L21 18V3L15 6L9 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-        <line x1="9" y1="3" x2="9" y2="18" stroke="currentColor" stroke-width="2"/>
-        <line x1="15" y1="6" x2="15" y2="21" stroke="currentColor" stroke-width="2"/>
+        <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2" />
+        <path d="M6 12H10M8 10V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        <circle cx="15.5" cy="11.5" r="0.75" fill="currentColor" />
+        <circle cx="18.5" cy="11.5" r="0.75" fill="currentColor" />
+        <circle cx="17" cy="10" r="0.75" fill="currentColor" />
+        <circle cx="17" cy="13" r="0.75" fill="currentColor" />
       </svg>
       <span class="nav-label">Matchmaking</span>
     </button>
 
     <button class="nav-item" :class="{ active: $route.path === '/profile' }" @click="$router.push('/profile')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
-        <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
+        <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
       </svg>
       <span class="nav-label">PROFILE</span>
     </button>
@@ -41,7 +46,7 @@
   height: auto;
   position: relative;
   z-index: 100;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.03);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .nav-item {
@@ -84,6 +89,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
 @media (max-width: 480px) {
   .nav-item {
     padding: 0.6rem 0.8rem;

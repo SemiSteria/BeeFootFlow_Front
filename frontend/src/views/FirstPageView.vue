@@ -97,14 +97,8 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
 
       <div class="auth-card">
         <div class="auth-tabs">
-          <button 
-            :class="{ active: isLogin }" 
-            @click="isLogin = true"
-          >CONNEXION</button>
-          <button 
-            :class="{ active: !isLogin }" 
-            @click="isLogin = false"
-          >INSCRIPTION</button>
+          <button :class="{ active: isLogin }" @click="isLogin = true">CONNEXION</button>
+          <button :class="{ active: !isLogin }" @click="isLogin = false">INSCRIPTION</button>
         </div>
 
         <form @submit.prevent="handleAuth" class="auth-form">
@@ -127,11 +121,7 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
               <span>ou continuer avec</span>
             </div>
             <div class="social-buttons">
-              <button
-                type="button"
-                class="social-btn discord"
-                @click="handleSocialLogin('discord')"
-              >
+              <button type="button" class="social-btn discord" @click="handleSocialLogin('discord')">
                 Discord
               </button>
             </div>
@@ -205,7 +195,7 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 32px;
   padding: 2.5rem;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
 
 .auth-tabs {
@@ -384,31 +374,54 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 480px) {
   .first-page {
-    padding: 1.5rem 1rem;
+    padding: var(--section-padding);
   }
-  
+
   .auth-card {
-    padding: 1.5rem;
+    padding: 1.75rem 1.25rem;
     border-radius: 24px;
+    gap: 1.5rem;
   }
-  
+
   .brand-text h1 {
     font-size: 2.2rem;
   }
-  
+
   .brand-header {
     margin-bottom: 2.5rem;
   }
-  
+
   .brand-logo {
     width: 60px;
     height: 60px;
+  }
+
+  .auth-tabs {
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .input-group input {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.9rem;
+  }
+
+  .auth-btn {
+    padding: 1rem;
+    font-size: 0.85rem;
   }
 }
 </style>

@@ -92,17 +92,17 @@ const formatTime = (seconds: number) => {
 
     <!-- Main scoreboard split -->
     <section class="split-view">
-      
+
       <!-- BLUE SIDE -->
       <div class="team-panel blue-panel" :class="{ 'is-leading': isLeading === 'blue' }">
         <div class="panel-content">
           <h2 class="team-name">ÉQUIPE BLEUE</h2>
           <div class="big-score">{{ blueTeam.score }}</div>
-          
+
           <div class="team-stats">
             <div class="stat-pill">MMR MOYEN: {{ blueTeam.avgMmr }}</div>
           </div>
-          
+
           <div class="player-roster">
             <div class="player-card" v-for="p in blueTeam.players" :key="p.name">
               <span class="p-name">{{ p.name }}</span>
@@ -117,11 +117,11 @@ const formatTime = (seconds: number) => {
         <div class="panel-content">
           <h2 class="team-name">ÉQUIPE ROUGE</h2>
           <div class="big-score">{{ redTeam.score }}</div>
-          
+
           <div class="team-stats">
             <div class="stat-pill">MMR MOYEN: {{ redTeam.avgMmr }}</div>
           </div>
-          
+
           <div class="player-roster">
             <div class="player-card" v-for="p in redTeam.players" :key="p.name">
               <span class="p-name">{{ p.name }}</span>
@@ -137,9 +137,9 @@ const formatTime = (seconds: number) => {
           <span class="hud-label">CHRONO</span>
           <span class="hud-time">{{ formatTime(matchTime) }}</span>
         </div>
-        
+
         <div class="hud-vs">VS</div>
-        
+
         <div class="hud-bottom">
           <div class="hud-box">
             <span class="hud-label">DERNIER BUT</span>
@@ -192,7 +192,7 @@ const formatTime = (seconds: number) => {
   background: #000;
   border-bottom: 4px solid var(--yellow-vivid);
   z-index: 100;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .topbar-left {
@@ -240,8 +240,15 @@ const formatTime = (seconds: number) => {
 }
 
 @keyframes pulse {
-  0% { opacity: 0.2; transform: scale(0.8); }
-  100% { opacity: 1; transform: scale(1.2); }
+  0% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 .fullscreen-btn {
@@ -323,8 +330,15 @@ const formatTime = (seconds: number) => {
 }
 
 @keyframes leaderPulse {
-  from { opacity: 0.8; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1.05); }
+  from {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 .team-name {
@@ -333,7 +347,7 @@ const formatTime = (seconds: number) => {
   letter-spacing: 2px;
   margin: 0;
   color: #fff;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .big-score {
@@ -342,7 +356,7 @@ const formatTime = (seconds: number) => {
   line-height: 1;
   margin: 0;
   color: #fff;
-  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .team-stats {
@@ -358,7 +372,7 @@ const formatTime = (seconds: number) => {
   font-weight: 900;
   letter-spacing: 1px;
   font-size: 1rem;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .player-roster {
@@ -418,13 +432,20 @@ const formatTime = (seconds: number) => {
   background: rgba(0, 0, 0, 0.7);
 }
 
-.player-card:hover::before, .player-card:hover::after {
+.player-card:hover::before,
+.player-card:hover::after {
   opacity: 1;
   box-shadow: 0 0 15px var(--yellow-vivid);
 }
 
-.blue-panel .player-card { border-color: var(--blue-bright); }
-.red-panel .player-card { border-left: none; border-right: 4px solid var(--red-bright); }
+.blue-panel .player-card {
+  border-color: var(--blue-bright);
+}
+
+.red-panel .player-card {
+  border-left: none;
+  border-right: 4px solid var(--red-bright);
+}
 
 .p-name {
   font-weight: 700;
@@ -433,7 +454,7 @@ const formatTime = (seconds: number) => {
 
 .p-mmr {
   font-weight: 900;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* CENTER HUD */
@@ -450,7 +471,8 @@ const formatTime = (seconds: number) => {
   pointer-events: none;
 }
 
-.hud-top, .hud-bottom {
+.hud-top,
+.hud-bottom {
   background: #000;
   border: 4px solid var(--yellow-vivid);
   border-radius: 20px;
@@ -458,14 +480,14 @@ const formatTime = (seconds: number) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
 .hud-bottom {
   flex-direction: row;
   gap: 1.5rem;
   padding: 1.2rem 2rem;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0, 0, 0, 0.9);
 }
 
 .hud-label {
@@ -496,7 +518,7 @@ const formatTime = (seconds: number) => {
   justify-content: center;
   border-radius: 50%;
   border: 5px solid var(--yellow-vivid);
-  box-shadow: 0 0 40px var(--yellow-glow), inset 0 0 10px rgba(0,0,0,0.5);
+  box-shadow: 0 0 40px var(--yellow-glow), inset 0 0 10px rgba(0, 0, 0, 0.5);
   text-shadow: none;
 }
 
@@ -529,19 +551,114 @@ const formatTime = (seconds: number) => {
 }
 
 /* RESPONSIVE */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
+  .big-score {
+    font-size: 12vw;
+  }
+
+  .team-name {
+    font-size: 2.5rem;
+  }
+
+  .center-hud {
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+}
+
+@media (max-width: 768px) {
   .split-view {
     flex-direction: column;
+    overflow-y: auto;
   }
-  
-  .blue-panel { border-right: none; border-bottom: 2px solid #000; }
-  .red-panel { border-left: none; border-top: 2px solid #000; }
-  
-  .big-score { font-size: 6rem; }
-  .team-name { font-size: 2rem; }
-  
+
+  .blue-panel {
+    border-right: none;
+    border-bottom: 2px solid #000;
+  }
+
+  .red-panel {
+    border-left: none;
+    border-top: 2px solid #000;
+  }
+
+  .team-panel {
+    min-height: 50vh;
+    padding: 3rem 1.5rem;
+  }
+
+  .big-score {
+    font-size: 8rem;
+  }
+
+  .team-name {
+    font-size: 2.2rem;
+  }
+
   .center-hud {
+    position: sticky;
+    top: 50%;
     transform: translate(-50%, -50%) scale(0.7);
+    margin-top: -50px;
+    /* Offset for aesthetic positioning between panels */
+  }
+
+  .player-roster {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 1rem;
+  }
+
+  .brand {
+    font-size: 1.25rem;
+  }
+
+  .live-chip {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .team-panel {
+    padding: 4rem 1rem;
+  }
+
+  .big-score {
+    font-size: 6rem;
+  }
+
+  .team-name {
+    font-size: 1.8rem;
+  }
+
+  .center-hud {
+    transform: translate(-50%, -50%) scale(0.55);
+  }
+
+  .hud-top,
+  .hud-bottom {
+    padding: 1.25rem;
+    border-width: 3px;
+  }
+
+  .hud-time {
+    font-size: 3rem;
+  }
+
+  .hud-vs {
+    width: 80px;
+    height: 80px;
+    font-size: 3rem;
+  }
+
+  .player-card {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .p-name {
+    font-size: 0.95rem;
   }
 }
 </style>

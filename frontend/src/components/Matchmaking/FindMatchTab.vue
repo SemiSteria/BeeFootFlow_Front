@@ -43,9 +43,23 @@ const onInit = async (promise: Promise<any>) => {
           <div class="badge">MATCH RAPIDE</div>
           <h2>Rejoindre la Solo Queue</h2>
           <p>Scannez le code QR d'une table pour entrer instantanément dans la file d'attente.</p>
-          
+
           <button @click="toggleScanner" class="scan-now-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="5" height="5" x="3" y="3" rx="1" />
+              <rect width="5" height="5" x="16" y="3" rx="1" />
+              <rect width="5" height="5" x="3" y="16" rx="1" />
+              <path d="M21 16h-3a2 2 0 0 0-2 2v3" />
+              <path d="M21 21v.01" />
+              <path d="M12 7v3a2 2 0 0 1-2 2H7" />
+              <path d="M3 12h.01" />
+              <path d="M12 3h.01" />
+              <path d="M12 16v.01" />
+              <path d="M16 12h1" />
+              <path d="M21 12v.01" />
+              <path d="M12 21v-1" />
+            </svg>
             SCANNER POUR JOUER
           </button>
         </div>
@@ -71,10 +85,14 @@ const onInit = async (promise: Promise<any>) => {
             <div class="scanner-header">
               <h3>Scanner Table</h3>
               <button @click="toggleScanner" class="close-scanner">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
               </button>
             </div>
-            
+
             <div class="scanner-view">
               <QrcodeStream @decode="onDecode" @init="onInit" />
               <div class="scanner-frame">
@@ -85,7 +103,7 @@ const onInit = async (promise: Promise<any>) => {
                 <div class="scan-line"></div>
               </div>
             </div>
-            
+
             <div class="scanner-footer">
               <p v-if="scannerStatus" class="status-msg">{{ scannerStatus }}</p>
               <p v-else>Alignez le QR code</p>
@@ -295,10 +313,37 @@ const onInit = async (promise: Promise<any>) => {
   border: 4px solid #FAC12D;
 }
 
-.top-left { top: 30px; left: 30px; border-right: 0; border-bottom: 0; border-radius: 8px 0 0 0; }
-.top-right { top: 30px; right: 30px; border-left: 0; border-bottom: 0; border-radius: 0 8px 0 0; }
-.bottom-left { bottom: 30px; left: 30px; border-right: 0; border-top: 0; border-radius: 0 0 0 8px; }
-.bottom-right { bottom: 30px; right: 30px; border-left: 0; border-top: 0; border-radius: 0 0 8px 0; }
+.top-left {
+  top: 30px;
+  left: 30px;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 8px 0 0 0;
+}
+
+.top-right {
+  top: 30px;
+  right: 30px;
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 0 8px 0 0;
+}
+
+.bottom-left {
+  bottom: 30px;
+  left: 30px;
+  border-right: 0;
+  border-top: 0;
+  border-radius: 0 0 0 8px;
+}
+
+.bottom-right {
+  bottom: 30px;
+  right: 30px;
+  border-left: 0;
+  border-top: 0;
+  border-radius: 0 0 8px 0;
+}
 
 .scan-line {
   width: 80%;
@@ -322,20 +367,71 @@ const onInit = async (promise: Promise<any>) => {
 }
 
 @keyframes scan {
-  0% { transform: translateY(-100px); opacity: 0; }
-  100% { transform: translateY(100px); opacity: 0; }
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.3s ease;
 }
 
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
+}
+
+@media (max-width: 480px) {
+  .find-match-tab {
+    gap: 1.5rem;
+  }
+
+  .solo-queue-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .solo-queue-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .solo-queue-card p {
+    max-width: 100%;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .scan-now-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .status-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .status-item {
+    padding: 1.25rem;
+  }
 }
 </style>

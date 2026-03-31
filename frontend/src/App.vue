@@ -18,7 +18,8 @@ import Navbar from './components/Layout/navbar.vue';
 
 <style>
 :root {
-  --primary: #FAC12D; /* Golden Yellow */
+  --primary: #FAC12D;
+  /* Golden Yellow */
   --primary-dark: #e5af29;
   --bg-color: #FFFFFF;
   --surface: #FFFFFF;
@@ -26,14 +27,31 @@ import Navbar from './components/Layout/navbar.vue';
   --text-main: #000000;
   --text-muted: #666666;
   --accent-glow: rgba(250, 191, 45, 0.2);
+  --section-padding: 2rem;
+  --container-max-width: 1200px;
 }
 
-html, body {
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --section-padding: 1rem;
+  }
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
   background-color: #FFFFFF !important;
   color: #000000 !important;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .app-container {
@@ -48,8 +66,10 @@ html, body {
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 2rem;
+  overflow-x: hidden;
+  /* padding-bottom removed as navbar is in flex column */
   background-color: #FFFFFF !important;
+  scroll-behavior: smooth;
 }
 
 .fade-enter-active,
@@ -61,5 +81,4 @@ html, body {
 .fade-leave-to {
   opacity: 0;
 }
-
 </style>
