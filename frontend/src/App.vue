@@ -12,7 +12,7 @@ import Navbar from './components/Layout/navbar.vue';
       </router-view>
     </div>
 
-    <Navbar v-if="$route.path !== '/firstpage' && $route.path !== '/'" />
+    <Navbar v-if="$route.path !== '/firstpage' && $route.path !== '/' && $route.path !== '/score'" />
   </div>
 </template>
 
