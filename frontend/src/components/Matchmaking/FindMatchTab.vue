@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { QrcodeStream } from 'qrcode-reader-vue3';
 
+const router = useRouter();
 const isScanning = ref(false);
 const scannerStatus = ref('');
 
@@ -13,8 +15,8 @@ const toggleScanner = () => {
 };
 
 const onDecode = (result: string) => {
-  alert(`Matchmaking via QR: ${result}`);
   isScanning.value = false;
+  router.push({ name: 'score', query: { match_id: result } });
 };
 
 const onInit = async (promise: Promise<any>) => {

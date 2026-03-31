@@ -18,6 +18,7 @@ const user = ref({
 
 onMounted(() => {
   const stored = JSON.parse(localStorage.getItem('user_data') ?? '{}');
+  console.log('Loaded user data:', stored);
   user.value = {
     photo: stored.avatar_url ?? '',
     pseudo: stored.pseudo ?? '',

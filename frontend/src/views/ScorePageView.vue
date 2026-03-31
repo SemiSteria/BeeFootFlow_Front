@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
+const API_URL = 'http://localhost:3000';
 const isFullscreen = ref(false);
 
 const toggleFullscreen = async () => {
@@ -21,33 +24,59 @@ const matchTime = ref(0);
 const timeSinceLastGoal = ref(45);
 const ballSpeed = ref(12.5);
 
-const redTeam = {
+const redTeam = ref({
   name: "Rouge",
-  score: 4,
-  avgMmr: 1450,
+  score: 0,
+  avgMmr: 0,
   players: [
     { name: "Alexandre", mmr: 1500 },
     { name: "Marie", mmr: 1400 }
   ]
-};
+});
 
-const blueTeam = {
+const blueTeam = ref({
   name: "Bleue",
-  score: 3,
-  avgMmr: 1420,
+  score: 0,
+  avgMmr: 0,
   players: [
     { name: "Julien", mmr: 1480 },
     { name: "Sophie", mmr: 1360 }
   ]
-};
+});
 
-const isLeading = computed(() => redTeam.score > blueTeam.score ? 'red' : blueTeam.score > redTeam.score ? 'blue' : 'tie');
+const isLeading = computed(() => redTeam.value.score > blueTeam.value.score ? 'red' : blueTeam.value.score > redTeam.value.score ? 'blue' : 'tie');
 
 let timerInterval: ReturnType<typeof setInterval>;
 let goalTimerInterval: ReturnType<typeof setInterval>;
 let speedInterval: ReturnType<typeof setInterval>;
 
-onMounted(() => {
+onMounted(async () => {
+  const matchId = "6d38af12-521c-46f7-b193-f9b8e7b59223";
+
+  let stored: Record<string, any> = {};
+
+  if (matchId) {
+    try {
+      const res = await fetch(`${API_URL}/matchesScore/${matchId}`);
+      if (res.ok) {
+        stored = await res.json();
+        localStorage.setItem('matches_data', JSON.stringify(stored));
+      }
+    } catch (err) {
+      console.warn('Failed to fetch match data:', err);
+    }
+  }
+
+  if (!stored.score_team_a && !stored.score_team_b) {
+    stored = JSON.parse(localStorage.getItem('matches_data') ?? '{}');
+  }
+
+  console.log('Loaded match data:', stored);
+  redTeam.value.score = stored.match.score_team_a ?? 0;
+  blueTeam.value.score = stored.match.score_team_b ?? 0;
+  redTeam.value.avgMmr = stored.match.avg_elo ?? 0;
+  blueTeam.value.avgMmr = stored.match.avg_elo ?? 0;
+
   timerInterval = setInterval(() => { matchTime.value++; }, 1000);
   goalTimerInterval = setInterval(() => { timeSinceLastGoal.value++; }, 1000);
   speedInterval = setInterval(() => {
