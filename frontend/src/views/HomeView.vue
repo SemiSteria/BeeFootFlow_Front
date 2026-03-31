@@ -54,6 +54,65 @@ const formatTime = (seconds: number) => {
       <div class="live">LIVE</div>
     </header>
 
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-info">
+          <!-- Mapping with Prisma 'totalMatchs' field -->
+          <span class="stat-val">{{ user.totalMatchs }}</span>
+          <span class="stat-lab">MATCHS</span>
+        </div>
+        <div class="stat-icon pulse">⚽</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-info">
+          <!-- Mapping with Prisma 'totalWins' field -->
+          <span class="stat-val">{{ user.totalWins.toString().padStart(2, '0') }}</span>
+          <span class="stat-lab">WINS</span>
+        </div>
+        <div class="stat-icon">🏆</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-info">
+          <!-- Dynamic accuracy calculation without storing the variable -->
+          <span class="stat-val">
+            {{ user.totalMatchs > 0 ? Math.round((user.totalWins / user.totalMatchs) * 100) : 0 }}%
+          </span>
+          <span class="stat-lab">ACC.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <router-link :to="{ name: 'matchmaking-join' }" class="action-btn primary">
+        <div class="action-icon">🤝</div>
+        <span>REJOINDRE</span>
+      </router-link>
+      <router-link :to="{ name: 'matchmaking-find' }" class="action-btn dark">
+        <div class="action-icon">⚡</div>
+        <span>MATCHMAKING</span>
+      </router-link>
+    </div>
+
+    <section class="next-match-section">
+      <div class="section-title">
+        <h2>NEXT MATCH</h2>
+        <span class="live-indicator">LIVE SOON</span>
+      </div>
+      
+      <div class="match-glass-card">
+        <div class="team-side">
+          <div class="team-logo">A</div>
+          <span>Team Alpha</span>
+        </div>
+        <div class="match-center">
+          <span class="vs-text">VS</span>
+          <div class="match-time">19:00</div>
+        </div>
+        <div class="team-side">
+          <div class="team-logo b">B</div>
+          <span>Team Bravo</span>
     <!-- SCORE -->
     <section class="scoreboard">
 
@@ -269,5 +328,64 @@ const formatTime = (seconds: number) => {
     flex-direction: column;
     gap: 1rem;
   }
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 3.5rem;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1.5rem;
+  border-radius: 24px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+.action-btn.primary {
+  background: var(--primary);
+  color: #000;
+  box-shadow: 0 10px 20px var(--accent-glow);
+}
+
+.action-btn.dark {
+  background: #1A1D23;
+  color: white;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.action-btn:hover {
+  transform: translateY(-5px);
+  filter: brightness(1.1);
+}
+
+.action-icon {
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.action-btn.dark .action-icon {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.action-btn span {
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 </style>
