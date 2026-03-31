@@ -21,8 +21,8 @@ const router = createRouter({
     },
     {
       path: '/matchmaking',
-      name: 'matchmaking',
       component: () => import('../views/MatchmakingView.vue'),
+      redirect: '/matchmaking/find',
       children: [
         {
           path: 'find',

@@ -8,7 +8,7 @@
       <span class="nav-label">ACCUEIL</span>
     </button>
 
-    <button class="nav-item" :class="{ active: $route.path === '/matchmaking' }" @click="$router.push('/matchmaking')">
+    <button class="nav-item" :class="{ active: $route.path.startsWith('/matchmaking') }" @click="$router.push('/matchmaking')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2" />
         <path d="M6 12H10M8 10V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
@@ -20,7 +20,7 @@
       <span class="nav-label">Matchmaking</span>
     </button>
 
-    <button class="nav-item" :class="{ active: $route.path === '/profile' }" @click="$router.push('/profile')">
+    <button class="nav-item" :class="{ active: $route.path.startsWith('/profile') }" @click="$router.push('/profile')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
         <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"
