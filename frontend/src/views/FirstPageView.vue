@@ -135,13 +135,6 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
             <div class="social-buttons">
               <button
                 type="button"
-                class="social-btn google"
-                @click="handleSocialLogin('google')"
-              >
-                Google
-              </button>
-              <button
-                type="button"
                 class="social-btn discord"
                 @click="handleSocialLogin('discord')"
               >
