@@ -10,24 +10,16 @@ defineEmits(['update:modelValue']);
 <template>
   <div class="tab-menu">
     <div class="tab-items">
-      <button 
-        v-for="tab in tabs" 
-        :key="tab.id"
-        :class="{ active: modelValue === tab.id }"
-        @click="$emit('update:modelValue', tab.id)"
-        class="tab-btn"
-      >
+      <button v-for="tab in tabs" :key="tab.id" :class="{ active: modelValue === tab.id }"
+        @click="$emit('update:modelValue', tab.id)" class="tab-btn">
         {{ tab.label }}
       </button>
     </div>
     <div class="tab-indicator-bg">
-      <div 
-        class="tab-indicator" 
-        :style="{ 
-          width: `${100 / tabs.length}%`, 
-          transform: `translateX(${tabs.findIndex(t => t.id === modelValue) * 100}%)` 
-        }"
-      ></div>
+      <div class="tab-indicator" :style="{
+        width: `${100 / tabs.length}%`,
+        transform: `translateX(${tabs.findIndex(t => t.id === modelValue) * 100}%)`
+      }"></div>
     </div>
   </div>
 </template>
@@ -80,7 +72,7 @@ defineEmits(['update:modelValue']);
   height: 100%;
   background: #FFFFFF;
   border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 </style>

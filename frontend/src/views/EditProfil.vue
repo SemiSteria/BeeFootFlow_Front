@@ -106,13 +106,7 @@ const handleSave = async () => {
           </button>
         </div>
         <p class="avatar-hint">Changer la photo</p>
-        <input
-          ref="fileInput"
-          type="file"
-          accept="image/*"
-          style="display: none"
-          @change="onFileChange"
-        />
+        <input ref="fileInput" type="file" accept="image/*" style="display: none" @change="onFileChange" />
       </div>
 
       <!-- Form -->
@@ -198,7 +192,7 @@ const handleSave = async () => {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: all 0.2s ease;
 }
 
@@ -278,7 +272,7 @@ const handleSave = async () => {
   border: 1px solid #e5e5e5;
   border-radius: 16px;
   padding: 1.25rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .section-title {
@@ -365,5 +359,38 @@ const handleSave = async () => {
 .btn-save:not(:disabled):hover {
   background: #e6ad28;
   box-shadow: 0 6px 16px rgba(250, 193, 45, 0.5);
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--section-padding);
+  }
+
+  .edit-card {
+    gap: 1.25rem;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+
+  .form-section {
+    padding: 1.25rem 1rem;
+  }
+
+  .input-wrap {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .btn-save {
+    padding: 0.9rem;
+  }
 }
 </style>

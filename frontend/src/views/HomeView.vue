@@ -38,7 +38,7 @@ onMounted(() => {
       <div class="brand-side">
         <h1>BEEFOOT<span>FLOW</span></h1>
       </div>
-      
+
       <div class="user-summary" @click="router.push('/profile')">
         <div class="user-info-text">
           <span class="user-name">{{ user.userName }}</span>
@@ -60,7 +60,7 @@ onMounted(() => {
         </div>
         <div class="stat-icon pulse">⚽</div>
       </div>
-      
+
       <div class="stat-card">
         <div class="stat-info">
           <span class="stat-val">{{ user.totalWins.toString().padStart(2, '0') }}</span>
@@ -68,7 +68,7 @@ onMounted(() => {
         </div>
         <div class="stat-icon">🏆</div>
       </div>
-      
+
       <div class="stat-card">
         <div class="stat-info">
           <span class="stat-val">{{ userAccuracy }}%</span>
@@ -103,7 +103,8 @@ onMounted(() => {
             <span class="kb-num">01</span>
             <h3>Manches & Points</h3>
           </div>
-          <p>Match au meilleur des <strong>5 manches</strong>. Manche en <strong>5 points</strong>. Égalité à 4-4 ? Il faut 2 points d'écart.</p>
+          <p>Match au meilleur des <strong>5 manches</strong>. Manche en <strong>5 points</strong>. Égalité à 4-4 ? Il
+            faut 2 points d'écart.</p>
         </div>
 
         <div class="kb-item">
@@ -111,7 +112,8 @@ onMounted(() => {
             <span class="kb-num">02</span>
             <h3>L'engagement</h3>
           </div>
-          <p>Toujours aux <strong>demis</strong>. Demandez <strong>« Prêt ? »</strong>. La balle doit être arrêtée avant de démarrer.</p>
+          <p>Toujours aux <strong>demis</strong>. Demandez <strong>« Prêt ? »</strong>. La balle doit être arrêtée avant
+            de démarrer.</p>
         </div>
 
         <div class="kb-item">
@@ -119,7 +121,8 @@ onMounted(() => {
             <span class="kb-num">03</span>
             <h3>Autorisé</h3>
           </div>
-          <p>La <strong>pissette</strong> est 100% autorisée. Les buts marqués avec les <strong>demis</strong> comptent aussi.</p>
+          <p>La <strong>pissette</strong> est 100% autorisée. Les buts marqués avec les <strong>demis</strong> comptent
+            aussi.</p>
         </div>
 
         <div class="kb-item">
@@ -265,9 +268,17 @@ onMounted(() => {
 }
 
 @keyframes pulse-animation {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* QUICK ACTIONS */
@@ -398,8 +409,73 @@ onMounted(() => {
   margin: 0;
 }
 
-@media (max-width: 700px) {
-  .rules-grid { grid-template-columns: 1fr; }
-  .stats-container { grid-template-columns: 1fr; }
+@media (max-width: 900px) {
+  .score-view {
+    padding: var(--section-padding);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-card:last-child {
+    grid-column: span 2;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .rules-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .stat-card:last-child {
+    grid-column: auto;
+  }
+
+  .score-header {
+    padding: 1.25rem 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .user-summary {
+    border-left: none;
+    border-top: 1px solid #EDEDED;
+    padding-left: 0;
+    padding-top: 1.25rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .user-info-text {
+    align-items: center;
+  }
+
+  .score-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .stat-val {
+    font-size: 1.4rem;
+  }
+
+  .section-title h2 {
+    font-size: 0.75rem;
+  }
 }
 </style>

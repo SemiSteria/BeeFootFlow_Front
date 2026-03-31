@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { Trophy, CheckCircle, XCircle, Palette, Bell, Info, LogOut, Pencil } from 'lucide-vue-next';
+import { Trophy, CheckCircle, XCircle, Info, LogOut, Pencil, Users } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -30,15 +30,11 @@ onMounted(() => {
   };
 });
 
-const theme = ref<'light' | 'dark'>('light');
-const notifications = ref(true);
-
-const toggleTheme = () => {
-  theme.value = theme.value === 'dark' ? 'light' : 'dark';
-};
-
 const handleLogout = () => {
   console.log('Logout');
+  localStorage.removeItem('user_data');
+  localStorage.removeItem('auth_token');
+  router.push('/');
 };
 </script>
 
@@ -48,6 +44,12 @@ const handleLogout = () => {
 
       <!-- Header -->
       <div class="profil-header">
+        <!-- New Floating Rank Badge -->
+        <div class="rank-badge-inline">
+          <Trophy :size="14" color="#000" />
+          <span class="rank-badge-value">{{ user.rank }}</span>
+        </div>
+
         <div class="avatar">
           <img v-if="user.photo" :src="user.photo" alt="Photo de profil" />
           <span v-else class="avatar-placeholder">{{ user.pseudo.charAt(0).toUpperCase() }}</span>
@@ -59,17 +61,6 @@ const handleLogout = () => {
           <Pencil :size="14" />
           Modifier le profil
         </button>
-      </div>
-
-      <!-- Rank -->
-      <div class="rank-card">
-        <div class="rank-card__cover">
-          <div class="rank-content">
-            <Trophy :size="32" color="#000" />
-            <span class="rank-value">{{ user.rank }}</span>
-            <span class="rank-label">Rank</span>
-          </div>
-        </div>
       </div>
 
       <!-- Stats -->
@@ -90,30 +81,14 @@ const handleLogout = () => {
       <div class="section">
         <h3 class="section-title">Paramètres</h3>
 
-        <div class="setting-row">
+        <div class="setting-row clickable" @click="router.push('/teams/create')">
           <div class="setting-info">
             <div class="setting-icon-wrap">
-              <Palette :size="18" color="#FAC12D" />
+              <Users :size="18" color="#FAC12D" />
             </div>
-            <span class="setting-label">Thème</span>
+            <span class="setting-label">Créer une équipe</span>
           </div>
-          <button class="toggle" :class="{ active: theme === 'light' }" @click="toggleTheme">
-            <span class="toggle-thumb"></span>
-            <span class="toggle-text">{{ theme === 'dark' ? 'Dark' : 'Light' }}</span>
-          </button>
-        </div>
-
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-icon-wrap">
-              <Bell :size="18" color="#FAC12D" />
-            </div>
-            <span class="setting-label">Notifications</span>
-          </div>
-          <button class="toggle" :class="{ active: notifications }" @click="notifications = !notifications">
-            <span class="toggle-thumb"></span>
-            <span class="toggle-text">{{ notifications ? 'On' : 'Off' }}</span>
-          </button>
+          <span class="chevron">›</span>
         </div>
 
         <div class="setting-row clickable" @click="router.push('/about')">
@@ -139,12 +114,13 @@ const handleLogout = () => {
 
 <style scoped>
 .container {
-  min-height: 100vh;
-  background: #f4f4f4;
+  min-height: auto;
+  background: #FFFFFF;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  justify-content: flex-start;
+  padding: 1.5rem;
 }
 
 .profil-card {
@@ -165,7 +141,8 @@ const handleLogout = () => {
   background: #ffffff;
   border: 1px solid #FAC12D44;
   border-radius: 20px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  position: relative;
 }
 
 .avatar {
@@ -234,109 +211,24 @@ const handleLogout = () => {
   color: #000;
 }
 
-/* Rank */
-.rank-card {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  perspective: 1000px;
-}
-
-.rank-card::before {
-  display: block;
-  content: "";
+.rank-badge-inline {
   position: absolute;
-  top: 5%;
-  left: 5%;
-  width: 90%;
-  height: 90%;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 12px 12px rgba(0, 0, 0, 0.2);
-  will-change: opacity;
-  transform-origin: top center;
-  transform: skewX(0.001deg);
-  transition: transform 0.35s ease-in-out, opacity 0.5s ease-in-out;
-  border-radius: 20px;
-}
-
-.rank-card:hover::before {
-  opacity: 0.6;
-  transform: rotateX(7deg) translateY(-6px) scale(1.05);
-}
-
-.rank-card__cover {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  overflow: hidden;
-  background: linear-gradient(135deg, #FAC12D 0%, #f5a400 60%, #e8960a 100%);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 220, 100, 0.4);
-  perspective-origin: 50% 50%;
-  transform-style: preserve-3d;
-  transform-origin: top center;
-  will-change: transform;
-  transform: skewX(0.001deg);
-  transition: transform 0.35s ease-in-out;
-  box-shadow:
-    0 8px 32px rgba(250, 193, 45, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.rank-card__cover::after {
-  display: block;
-  content: "";
-  position: absolute;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 120%;
-  background: linear-gradient(
-    226deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.4) 35%,
-    rgba(255, 255, 255, 0.15) 42%,
-    rgba(255, 255, 255, 0) 60%
-  );
-  transform: translateY(-20%);
-  will-change: transform;
-  transition: transform 0.65s cubic-bezier(0.18, 0.9, 0.58, 1);
-  pointer-events: none;
-}
-
-.rank-card:hover .rank-card__cover {
-  transform: rotateX(7deg) translateY(-6px);
-}
-
-.rank-card:hover .rank-card__cover::after {
-  transform: translateY(0%);
-}
-
-.rank-content {
-  position: relative;
-  z-index: 2;
+  top: 1.5rem;
+  right: 1.5rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
-  padding: 2rem 1.5rem;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #FAC12D 0%, #f5a400 100%);
+  padding: 0.5rem 0.8rem;
+  border-radius: 99px;
+  box-shadow: 0 4px 10px rgba(250, 193, 45, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.rank-value {
-  font-size: 3rem;
+.rank-badge-value {
+  font-size: 0.9rem;
   font-weight: 900;
   color: #000;
-  line-height: 1;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.rank-label {
-  font-size: 0.7rem;
-  color: rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 700;
 }
 
 /* Stats */
@@ -355,7 +247,7 @@ const handleLogout = () => {
   border: 1px solid #e5e5e5;
   border-radius: 16px;
   padding: 1.25rem 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .stat-value {
@@ -396,7 +288,7 @@ const handleLogout = () => {
   background: #ffffff;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .setting-row.clickable {
@@ -491,5 +383,46 @@ const handleLogout = () => {
 .btn-logout:hover {
   background: #ffe5e5;
   border-color: #e53e3e;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--section-padding);
+  }
+}
+
+@media (max-width: 480px) {
+  .profil-card {
+    gap: 1.25rem;
+  }
+
+  .profil-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .pseudo {
+    font-size: 1.25rem;
+  }
+
+  .rank-value {
+    font-size: 2.2rem;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  .setting-row {
+    padding: 0.8rem 1rem;
+  }
+
+  .setting-label {
+    font-size: 0.95rem;
+  }
 }
 </style>
