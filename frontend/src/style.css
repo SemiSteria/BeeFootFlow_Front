@@ -3,11 +3,19 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light;
-  
+  color-scheme: dark;
+
   --primary: #FAC12D;
-  --bg-color: #FFFFFF;
-  --text-main: #000000;
+  --primary-bright: #FFD84D;
+
+  --bg-color: #070707;
+  --surface: #141414;
+
+  --text-main: #FFFFFF;
+  --text-soft: #EAEAEA;
+  --muted: #9a9a9a;
+
+  --white-glow: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -21,6 +29,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-main);
   min-height: 100vh;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
