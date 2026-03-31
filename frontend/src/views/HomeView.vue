@@ -2,6 +2,21 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 const matchTime = ref(0);
+
+const storedRaw = localStorage.getItem('user_data');
+let storedUser = null;
+try {
+  storedUser = storedRaw ? JSON.parse(storedRaw) : null;
+} catch {
+  storedUser = null;
+}
+
+const user = ref({
+  userName: storedUser?.pseudo ?? 'Guest',
+  avatarUrl: storedUser?.avatar_url ?? null,
+  totalMatchs: storedUser?.total_matches ?? 0,
+  totalWins: storedUser?.total_wins ?? 0
+});
 const timeSinceLastGoal = ref(45);
 const ballSpeed = ref(12.5);
 
@@ -113,6 +128,10 @@ const formatTime = (seconds: number) => {
         <div class="team-side">
           <div class="team-logo b">B</div>
           <span>Team Bravo</span>
+        </div>
+      </div>
+    </section>
+
     <!-- SCORE -->
     <section class="scoreboard">
 
