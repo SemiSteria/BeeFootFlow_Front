@@ -5,7 +5,6 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const isLogin = ref(true);
 const email = ref('');
-const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const isSubmitting = ref(false);
@@ -112,11 +111,6 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
           <div class="input-group">
             <label>ADRESSE EMAIL</label>
             <input type="email" v-model="email" placeholder="nom@exemple.com" required />
-          </div>
-
-          <div class="input-group" v-if="!isLogin">
-            <label>NOM D'UTILISATEUR</label>
-            <input type="text" v-model="username" placeholder="Votre nom d'utilisateur" />
           </div>
 
           <div class="input-group">
