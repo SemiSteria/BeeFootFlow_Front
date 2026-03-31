@@ -30,6 +30,11 @@ const router = createRouter({
       component: () => import('../views/ProfileView.vue')
     },
     {
+      path: '/profile/edit',
+      name: 'profile-edit',
+      component: () => import('../views/EditProfil.vue')
+    },
+    {
       path: '/teams/create',
       name: 'create-team',
       component: () => import('../views/CreateTeamView.vue')
