@@ -56,6 +56,11 @@ const router = createRouter({
       path: '/score',
       name: 'score',
       component: () => import('../views/ScorePageView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue')
     }
   ]
 })
