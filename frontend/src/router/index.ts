@@ -22,7 +22,20 @@ const router = createRouter({
     {
       path: '/matchmaking',
       name: 'matchmaking',
-      component: () => import('../views/MatchmakingView.vue')
+      component: () => import('../views/MatchmakingView.vue'),
+      redirect: '/matchmaking/find',
+      children: [
+        {
+          path: 'find',
+          name: 'matchmaking-find',
+          component: () => import('../components/Matchmaking/FindMatchTab.vue')
+        },
+        {
+          path: 'join',
+          name: 'matchmaking-join',
+          component: () => import('../components/Matchmaking/JoinGameTab.vue')
+        }
+      ]
     },
     {
       path: '/profile',
@@ -33,6 +46,10 @@ const router = createRouter({
       path: '/teams/create',
       name: 'create-team',
       component: () => import('../views/CreateTeamView.vue')
+    },
+    {
+      path: '/joingames',
+      redirect: { name: 'matchmaking-join' }
     }
   ]
 })
