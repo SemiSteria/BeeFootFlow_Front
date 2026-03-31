@@ -52,7 +52,6 @@ const joinQuickGame = (id: string) => {
     <section class="ongoing-section">
       <div class="section-header">
         <div class="section-badge">PARTIES PUBLIQUES</div>
-        <button class="view-all">Tout voir</button>
       </div>
 
       <div class="games-list">
@@ -68,13 +67,6 @@ const joinQuickGame = (id: string) => {
         </div>
       </div>
     </section>
-
-    <div class="qr-scanner-shortcut">
-      <div class="qr-placeholder">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
-      </div>
-      <p>Scanner un QR Code</p>
-    </div>
   </div>
 </template>
 
@@ -234,40 +226,6 @@ const joinQuickGame = (id: string) => {
   text-transform: uppercase;
 }
 
-.qr-scanner-shortcut {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  opacity: 0.5;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-}
-
-.qr-scanner-shortcut:hover {
-  opacity: 1;
-}
-
-.qr-placeholder {
-  width: 64px;
-  height: 64px;
-  background: #F8F9FA;
-  border: 2px dashed #D1D5DB;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-}
-
-.qr-scanner-shortcut p {
-  font-size: 0.75rem;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  margin: 0;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -277,5 +235,11 @@ const joinQuickGame = (id: string) => {
   0% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.5); opacity: 0.5; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  .join-game-tab {
+    gap: 2.5rem;
+  }
 }
 </style>

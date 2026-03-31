@@ -46,10 +46,6 @@ const router = createRouter({
       path: '/teams/create',
       name: 'create-team',
       component: () => import('../views/CreateTeamView.vue')
-    },
-    {
-      path: '/joingames',
-      redirect: { name: 'matchmaking-join' }
     }
   ]
 })
