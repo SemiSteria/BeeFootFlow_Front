@@ -161,7 +161,7 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background-color: #FFFFFF;
+  background-color: var(--bg-color);
 }
 
 .auth-container {
@@ -207,11 +207,11 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
 
 /* Auth Card */
 .auth-card {
-  background: #FFFFFF;
-  border: 1px solid #EDEDED;
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 32px;
   padding: 2.5rem;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
 }
 
 .auth-tabs {
@@ -264,17 +264,18 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
 .input-group label {
   font-size: 0.65rem;
   font-weight: 900;
-  color: #000;
+  color: var(--primary);
   letter-spacing: 1px;
 }
 
 .input-group input {
-  background: #F8F9FA;
+  background: #FFFFFF;
   border: 1px solid #EDEDED;
   padding: 1.1rem 1.25rem;
   border-radius: 16px;
   font-family: inherit;
   font-size: 0.95rem;
+  color: #000000;
   transition: all 0.3s ease;
 }
 
@@ -335,13 +336,14 @@ const handleSocialLogin = (provider: 'google' | 'discord') => {
 }
 
 .social-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.7rem;
-  margin-top: 0.9rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 1.2rem;
 }
 
 .social-btn {
+  width: 100%;
+  max-width: 200px;
   border: 1px solid #E5E7EB;
   background: #FFFFFF;
   color: #111827;

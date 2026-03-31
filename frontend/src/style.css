@@ -8,11 +8,11 @@
   --primary: #FAC12D;
   --primary-bright: #FFD84D;
 
-  --bg-color: #070707;
+  --bg-color: #fdfdfd;
   --surface: #141414;
 
-  --text-main: #FFFFFF;
-  --text-soft: #EAEAEA;
+  --text-main: #000000;
+  --text-soft: #000000;
   --muted: #9a9a9a;
 
   --white-glow: rgba(255, 255, 255, 0.08);

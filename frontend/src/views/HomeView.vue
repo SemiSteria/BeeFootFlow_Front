@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-const matchTime = ref(0);
+const router = useRouter();
 
 const storedRaw = localStorage.getItem('user_data');
 let storedUser = null;
@@ -15,49 +16,18 @@ const user = ref({
   userName: storedUser?.pseudo ?? 'Guest',
   avatarUrl: storedUser?.avatar_url ?? null,
   totalMatchs: storedUser?.total_matches ?? 0,
-  totalWins: storedUser?.total_wins ?? 0
+  totalWins: storedUser?.total_wins ?? 0,
+  elo: storedUser?.elo ?? 0
 });
-const timeSinceLastGoal = ref(45);
-const ballSpeed = ref(12.5);
 
-const redTeam = {
-  name: "Rouge",
-  score: 4,
-  avgMmr: 1450,
-  players: [
-    { name: "Alexandre", mmr: 1500 },
-    { name: "Marie", mmr: 1400 }
-  ]
-};
-
-const blueTeam = {
-  name: "Bleue",
-  score: 3,
-  avgMmr: 1420,
-  players: [
-    { name: "Julien", mmr: 1480 },
-    { name: "Sophie", mmr: 1360 }
-  ]
-};
-
-const isLeading = computed(() =>
-  redTeam.score > blueTeam.score ? 'red' :
-  blueTeam.score > redTeam.score ? 'blue' : 'tie'
-);
-
-let timerInterval: ReturnType<typeof setInterval>;
+const userAccuracy = computed(() => {
+  if (user.value.totalMatchs === 0) return 0;
+  return Math.round((user.value.totalWins / user.value.totalMatchs) * 100);
+});
 
 onMounted(() => {
-  timerInterval = setInterval(() => matchTime.value++, 1000);
+  // Sync logic if needed in the future
 });
-
-onUnmounted(() => clearInterval(timerInterval));
-
-const formatTime = (seconds: number) => {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-};
 </script>
 
 <template>
@@ -65,14 +35,26 @@ const formatTime = (seconds: number) => {
 
     <!-- HEADER -->
     <header class="score-header">
-      <h1>BEEFOOT<span>FLOW</span></h1>
-      <div class="live">LIVE</div>
+      <div class="brand-side">
+        <h1>BEEFOOT<span>FLOW</span></h1>
+      </div>
+      
+      <div class="user-summary" @click="router.push('/profile')">
+        <div class="user-info-text">
+          <span class="user-name">{{ user.userName }}</span>
+          <span class="user-elo">{{ user.elo }} pts</span>
+        </div>
+        <div class="user-avatar-small">
+          <img v-if="user.avatarUrl" :src="user.avatarUrl" :alt="user.userName" />
+          <span v-else class="avatar-init">{{ user.userName.charAt(0).toUpperCase() }}</span>
+        </div>
+      </div>
     </header>
 
+    <!-- STATS CARDS -->
     <div class="stats-container">
       <div class="stat-card">
         <div class="stat-info">
-          <!-- Mapping with Prisma 'totalMatchs' field -->
           <span class="stat-val">{{ user.totalMatchs }}</span>
           <span class="stat-lab">MATCHS</span>
         </div>
@@ -81,7 +63,6 @@ const formatTime = (seconds: number) => {
       
       <div class="stat-card">
         <div class="stat-info">
-          <!-- Mapping with Prisma 'totalWins' field -->
           <span class="stat-val">{{ user.totalWins.toString().padStart(2, '0') }}</span>
           <span class="stat-lab">WINS</span>
         </div>
@@ -90,15 +71,14 @@ const formatTime = (seconds: number) => {
       
       <div class="stat-card">
         <div class="stat-info">
-          <!-- Dynamic accuracy calculation without storing the variable -->
-          <span class="stat-val">
-            {{ user.totalMatchs > 0 ? Math.round((user.totalWins / user.totalMatchs) * 100) : 0 }}%
-          </span>
+          <span class="stat-val">{{ userAccuracy }}%</span>
           <span class="stat-lab">ACC.</span>
         </div>
+        <div class="stat-icon">🎯</div>
       </div>
     </div>
 
+    <!-- QUICK ACTIONS -->
     <div class="quick-actions">
       <router-link :to="{ name: 'matchmaking-join' }" class="action-btn primary">
         <div class="action-icon">🤝</div>
@@ -110,82 +90,45 @@ const formatTime = (seconds: number) => {
       </router-link>
     </div>
 
-    <section class="next-match-section">
+    <!-- RULES SECTION -->
+    <section class="rules-kb-section">
       <div class="section-title">
-        <h2>NEXT MATCH</h2>
-        <span class="live-indicator">LIVE SOON</span>
+        <h2>LES RÈGLES DE L'ART</h2>
+        <span class="badge-volt">OFFICIEL FFFT</span>
       </div>
-      
-      <div class="match-glass-card">
-        <div class="team-side">
-          <div class="team-logo">A</div>
-          <span>Team Alpha</span>
-        </div>
-        <div class="match-center">
-          <span class="vs-text">VS</span>
-          <div class="match-time">19:00</div>
-        </div>
-        <div class="team-side">
-          <div class="team-logo b">B</div>
-          <span>Team Bravo</span>
-        </div>
-      </div>
-    </section>
 
-    <!-- SCORE -->
-    <section class="scoreboard">
-
-      <!-- BLUE -->
-      <div class="team blue">
-        <span class="team-name">BLEU</span>
-        <div class="score">{{ blueTeam.score }}</div>
-
-        <div class="players">
-          <div v-for="p in blueTeam.players" :key="p.name">
-            <span>{{ p.name }}</span>
-            <span class="mmr">{{ p.mmr }}</span>
+      <div class="rules-grid">
+        <div class="kb-item">
+          <div class="kb-header">
+            <span class="kb-num">01</span>
+            <h3>Manches & Points</h3>
           </div>
+          <p>Match au meilleur des <strong>5 manches</strong>. Manche en <strong>5 points</strong>. Égalité à 4-4 ? Il faut 2 points d'écart.</p>
         </div>
-      </div>
 
-      <!-- CENTER -->
-      <div class="center">
-        <div class="timer">{{ formatTime(matchTime) }}</div>
-        <div class="vs">VS</div>
-      </div>
-
-      <!-- RED -->
-      <div class="team red">
-        <span class="team-name">ROUGE</span>
-        <div class="score">{{ redTeam.score }}</div>
-
-        <div class="players">
-          <div v-for="p in redTeam.players" :key="p.name">
-            <span>{{ p.name }}</span>
-            <span class="mmr">{{ p.mmr }}</span>
+        <div class="kb-item">
+          <div class="kb-header">
+            <span class="kb-num">02</span>
+            <h3>L'engagement</h3>
           </div>
+          <p>Toujours aux <strong>demis</strong>. Demandez <strong>« Prêt ? »</strong>. La balle doit être arrêtée avant de démarrer.</p>
         </div>
-      </div>
 
-    </section>
+        <div class="kb-item">
+          <div class="kb-header">
+            <span class="kb-num">03</span>
+            <h3>Autorisé</h3>
+          </div>
+          <p>La <strong>pissette</strong> est 100% autorisée. Les buts marqués avec les <strong>demis</strong> comptent aussi.</p>
+        </div>
 
-    <!-- STATS -->
-    <section class="stats">
-      <div>
-        <span>DERNIER BUT</span>
-        <strong>{{ formatTime(timeSinceLastGoal) }}</strong>
-      </div>
-
-      <div class="highlight">
-        <span>VITESSE</span>
-        <strong>{{ ballSpeed }} KM/H</strong>
-      </div>
-
-      <div>
-        <span>MÈNE</span>
-        <strong :class="isLeading">
-          {{ isLeading === 'red' ? 'ROUGE' : isLeading === 'blue' ? 'BLEU' : 'ÉGALITÉ' }}
-        </strong>
+        <div class="kb-item">
+          <div class="kb-header">
+            <span class="kb-num">04</span>
+            <h3>Interdit</h3>
+          </div>
+          <p>La <strong>roulette</strong> est interdite (> 360°). Pas de vibrations ou de gêne physique.</p>
+        </div>
       </div>
     </section>
 
@@ -205,151 +148,129 @@ const formatTime = (seconds: number) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  background: white;
+  padding: 1.25rem 1.5rem;
+  border-radius: 24px;
+  border: 1px solid #EDEDED;
 }
 
 .score-header h1 {
+  font-size: 1.4rem;
   font-weight: 950;
   letter-spacing: -1px;
+  margin: 0;
 }
 
-.score-header span {
+.score-header h1 span {
   color: var(--primary);
 }
 
-.live {
-  background: black;
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.7rem;
-  font-weight: 900;
-}
-
-/* SCOREBOARD */
-.scoreboard {
-  display: grid;
-  grid-template-columns: 1fr 120px 1fr;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-/* TEAM */
-.team {
-  background: white;
-  border-radius: 24px;
-  padding: 1.5rem;
-  border: 1px solid #eee;
-  text-align: center;
-}
-
-.team-name {
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  font-weight: 900;
-}
-
-.score {
-  font-size: 4rem;
-  font-weight: 950;
-  margin: 1rem 0;
-}
-
-.blue .score {
-  color: #00bcd4;
-}
-
-.red .score {
-  color: #ff2a55;
-}
-
-/* PLAYERS */
-.players {
+.user-summary {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.players div {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-}
-
-.mmr {
-  color: var(--primary);
-  font-weight: 700;
-}
-
-/* CENTER */
-.center {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
+  cursor: pointer;
+  padding-left: 1rem;
+  border-left: 2px solid #F8F9FA;
+  transition: opacity 0.2s ease;
 }
 
-.timer {
-  font-weight: 900;
-  color: var(--primary);
+.user-summary:hover {
+  opacity: 0.8;
 }
 
-.vs {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: #ccc;
-}
-
-/* STATS */
-.stats {
+.user-info-text {
   display: flex;
-  justify-content: space-between;
-  background: white;
-  padding: 1rem;
-  border-radius: 20px;
-  border: 1px solid #eee;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-.stats div {
-  text-align: center;
-  flex: 1;
+.user-name {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #000;
 }
 
-.stats span {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-
-.stats strong {
-  display: block;
-  font-size: 1.2rem;
-  margin-top: 0.3rem;
-}
-
-.highlight {
+.user-elo {
+  font-size: 0.75rem;
+  font-weight: 800;
   color: var(--primary);
 }
 
-/* RESPONSIVE */
-@media (max-width: 700px) {
-  .scoreboard {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .center {
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .stats {
-    flex-direction: column;
-    gap: 1rem;
-  }
+.user-avatar-small {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 2px solid #F8F9FA;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF8E1;
 }
 
-/* Quick Actions */
+.user-avatar-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-init {
+  font-weight: 900;
+  color: var(--primary);
+}
+
+/* STATS CARDS */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem 1rem;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid #EDEDED;
+  color: #000;
+}
+
+.stat-val {
+  font-size: 1.6rem;
+  font-weight: 950;
+}
+
+.stat-lab {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1.5px;
+}
+
+.stat-icon {
+  font-size: 1.3rem;
+  background: #F8F9FA;
+  padding: 0.5rem;
+  border-radius: 12px;
+}
+
+.pulse {
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* QUICK ACTIONS */
 .quick-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -367,19 +288,17 @@ const formatTime = (seconds: number) => {
   border-radius: 24px;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid transparent;
 }
 
 .action-btn.primary {
   background: var(--primary);
   color: #000;
-  box-shadow: 0 10px 20px var(--accent-glow);
+  box-shadow: 0 10px 20px rgba(250, 193, 45, 0.2);
 }
 
 .action-btn.dark {
   background: #1A1D23;
   color: white;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .action-btn:hover {
@@ -398,13 +317,89 @@ const formatTime = (seconds: number) => {
   border-radius: 12px;
 }
 
-.action-btn.dark .action-icon {
-  background: rgba(255, 255, 255, 0.1);
-}
-
 .action-btn span {
   font-size: 0.8rem;
   font-weight: 900;
   letter-spacing: 1px;
+}
+
+/* RULES SECTION */
+.rules-kb-section {
+  padding-bottom: 3rem;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-title h2 {
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #000;
+}
+
+.badge-volt {
+  font-size: 0.65rem;
+  background: var(--primary);
+  color: #000;
+  padding: 0.3rem 0.8rem;
+  border-radius: 30px;
+  font-weight: 950;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.kb-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 1px solid #EDEDED;
+  color: #000;
+}
+
+.kb-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.kb-num {
+  font-size: 0.7rem;
+  font-weight: 950;
+  color: var(--primary);
+  background: #F8F9FA;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.kb-header h3 {
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 900;
+}
+
+.kb-item p {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .rules-grid { grid-template-columns: 1fr; }
+  .stats-container { grid-template-columns: 1fr; }
 }
 </style>

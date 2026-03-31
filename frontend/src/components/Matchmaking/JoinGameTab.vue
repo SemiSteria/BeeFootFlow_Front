@@ -81,7 +81,7 @@ const joinQuickGame = (id: string) => {
 .section-badge {
   font-size: 0.65rem;
   font-weight: 900;
-  color: #000;
+  color: var(--primary);
   letter-spacing: 1.5px;
   margin-bottom: 0.8rem;
   opacity: 0.8;
@@ -104,7 +104,7 @@ const joinQuickGame = (id: string) => {
 }
 
 .section-desc {
-  color: #666;
+  color: var(--muted);
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 2rem;
@@ -116,7 +116,7 @@ const joinQuickGame = (id: string) => {
 
 .game-code-input {
   width: 100%;
-  background: #F8F9FA;
+  background: #FFFFFF;
   border: 2px solid #EDEDED;
   padding: 1.5rem;
   border-radius: 20px;
@@ -124,6 +124,7 @@ const joinQuickGame = (id: string) => {
   font-size: 2rem;
   font-weight: 900;
   text-align: center;
+  color: #000000;
   letter-spacing: 4px;
   transition: all 0.3s ease;
   box-sizing: border-box;
