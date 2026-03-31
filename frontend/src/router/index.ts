@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,34 +7,34 @@ const router = createRouter({
     {
       path: '/',
       name: 'firstpage',
-      component: () => import('../views/FirstPageView.vue')
+      component: () => import('../views/FirstPageView.vue'),
     },
     {
       path: '/home',
       name: 'home',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/auth/callback',
       name: 'auth-callback',
-      component: () => import('../views/AuthCallbackView.vue')
+      component: () => import('../views/AuthCallbackView.vue'),
     },
     {
       path: '/matchmaking',
       name: 'matchmaking',
-      component: () => import('../views/MatchmakingView.vue')
+      component: () => import('../views/qrcodes.vue'),
     },
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../views/ProfileView.vue')
+      component: () => import('../views/ProfileView.vue'),
     },
     {
       path: '/teams/create',
       name: 'create-team',
-      component: () => import('../views/CreateTeamView.vue')
-    }
-  ]
-})
+      component: () => import('../views/CreateTeamView.vue'),
+    },
+  ],
+});
 
-export default router
+export default router;
